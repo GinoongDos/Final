@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Order #{{ order.id }} – Shop{% endblock %}
+{% block content %}
+<h1>Order #{{ order.id }}</h1>
+<p class="muted">
+    <strong>Customer:</strong> <a href="{% url 'shop:customers' %}">{{ order.customer.name }}</a>
+    · <strong>Date:</strong> {{ order.order_date|date:"M j, Y g:i A" }}
+    · <a href="{% url 'shop:order_delete' order.id %}">Delete this order</a>
+</p>
+
+<section aria-label="Add product to order">
+    <h2>Add product to order</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-row"><label for="id_product">Product:</label>{{ form.product }}</div>
+        <div class="form-row"><label for="id_quantity">Quantity:</label>{{ form.quantity }}</div>
+        <button type="submit" class="btn btn-primary">Add to order</button>
+    </form>
+</section>
+
+<section aria-label="Order items">
+    <h2>Order items</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>₱{{ item.product.price }}</td>
+                <td class="actions">
+                    <form method="post" action="{% url 'shop:order_item_delete' order.id item.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4" class="empty">No items in this order. Add products above.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p><strong>Order total:</strong> ₱{{ order.total|floatformat:2 }}</p>
+</section>
+{% endblock %}

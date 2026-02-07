@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Orders – Shop{% endblock %}
+{% block content %}
+<h1>Orders</h1>
+
+<section aria-label="Order list">
+    <table>
+        <thead>
+            <tr>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for o in orders %}
+            <tr>
+                <td><a href="{% url 'shop:order_detail' o.id %}">Order #{{ o.id }}</a></td>
+                <td>{{ o.customer.name }}</td>
+                <td>{{ o.order_date|date:"M j, Y g:i A" }}</td>
+                <td class="actions">
+                    <a href="{% url 'shop:order_detail' o.id %}">View / Edit</a>
+                    <a href="{% url 'shop:order_delete' o.id %}">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4" class="empty">No orders yet. Create an order from a customer page.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

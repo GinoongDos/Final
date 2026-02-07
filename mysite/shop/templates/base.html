@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Shop{% endblock %}</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 900px; margin: 0 auto; padding: 1rem; }
+        nav { margin-bottom: 1.5rem; padding: 0.5rem 0; border-bottom: 1px solid #ccc; }
+        nav a { margin-right: 1rem; }
+        h1 { margin-top: 0; font-size: 1.5rem; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { text-align: left; padding: 0.4rem 0.75rem; border-bottom: 1px solid #eee; }
+        th { font-weight: 600; color: #333; }
+        .actions a, .actions button { margin-right: 0.5rem; font-size: 0.9rem; }
+        .empty { color: #666; font-style: italic; }
+        .form-row { margin-bottom: 0.75rem; }
+        .form-row label { display: inline-block; min-width: 6rem; font-weight: 500; }
+        .btn { padding: 0.35rem 0.75rem; cursor: pointer; }
+        .btn-primary { background: #333; color: #fff; border: none; }
+        .muted { color: #666; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <nav aria-label="Main navigation">
+        <strong>Shop</strong>
+        <a href="{% url 'shop:customers' %}">Customers</a>
+        <a href="{% url 'shop:products' %}">Products</a>
+        <a href="{% url 'shop:order_list' %}">Orders</a>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

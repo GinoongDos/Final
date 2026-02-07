@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}{% if title %}{{ title }}{% else %}Form{% endif %} – Shop{% endblock %}
+{% block content %}
+<h1>{% if title %}{{ title }}{% else %}Form{% endif %}</h1>
+<form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-row">
+        <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+        {{ field }}
+        {% if field.errors %}<span class="error">{{ field.errors.0 }}</span>{% endif %}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{% if cancel_url %}{% url cancel_url %}{% else %}{% url 'shop:customers' %}{% endif %}">Cancel</a>
+</form>
+{% endblock %}
